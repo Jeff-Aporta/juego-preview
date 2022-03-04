@@ -64,48 +64,78 @@
                 this.mover = false
                 //Eventos de roll
                 this.roll = undefined
-                this.rollDuration = 1000
+                this.rollDuration = 100
                 this.startRoll = 0
             }
 
             keysLogic() {
-                if (keyIsDown(SHIFT)) {
+                if (keyIsDown(SHIFT) && !this.roll) {
+                    if (keyIsDown(DOWN_ARROW)) {
+                        this.roll = DOWN_ARROW
+                    }
+                    if (keyIsDown(UP_ARROW)) {
+                        this.roll = UP_ARROW
+                    }
                     if (keyIsDown(RIGHT_ARROW)) {
                         this.roll = RIGHT_ARROW
+                    }
+                    if (keyIsDown(LEFT_ARROW)) {
+                        this.roll = LEFT_ARROW
+                    }
+                    if (this.roll) {
                         this.startRoll = millis()
                     }
                 }
                 if (keyIsDown(RIGHT_ARROW)) {
-                    this.movimiento.x++
+                    this.movimiento.x += 2
                     if (!this.mover) {
                         this.dirección = RIGHT_ARROW
                         this.mover = true
                     }
                 }
                 if (keyIsDown(LEFT_ARROW)) {
-                    this.movimiento.x--
+                    this.movimiento.x -= 2
                     if (!this.mover) {
                         this.dirección = LEFT_ARROW
                         this.mover = true
                     }
                 }
                 if (keyIsDown(UP_ARROW)) {
-                    this.movimiento.y--
+                    this.movimiento.y -= 2
                     if (!this.mover) {
                         this.dirección = UP_ARROW
                         this.mover = true
                     }
                 }
                 if (keyIsDown(DOWN_ARROW)) {
-                    this.movimiento.y++
+                    this.movimiento.y += 2
                     if (!this.mover) {
                         this.dirección = DOWN_ARROW
                         this.mover = true
                     }
                 }
                 if (!this.roll) {
-                    this.movimiento.x = constrain(this.movimiento.x, -1, 1)
-                    this.movimiento.y = constrain(this.movimiento.y, -1, 1)
+                    this.movimiento.x = constrain(this.movimiento.x, -2, 2)
+                    this.movimiento.y = constrain(this.movimiento.y, -2, 2)
+                } else {
+                    switch (this.roll) {
+                        case DOWN_ARROW:
+                            this.movimiento = createVector(0, 10)
+                            break;
+                        case UP_ARROW:
+                            this.movimiento = createVector(0, -10)
+                            break;
+                        case RIGHT_ARROW:
+                            this.movimiento = createVector(10, 0)
+                            break;
+                        case LEFT_ARROW:
+                            this.movimiento = createVector(-10, 0)
+                            break;
+                    }
+                    if (millis() - this.startRoll > this.rollDuration) {
+                        this.roll = undefined
+                        this.movimiento = createVector(0, 0)
+                    }
                 }
             }
 
@@ -165,6 +195,13 @@
                         sprite.setFrame(Math.floor(sprite.aframe))
                         sprite.aframe = (sprite.aframe + 0.2) % sprite.numFrames()
                     }
+                    if (this.roll) {
+                        if (sprite.numFrames()) {
+                            sprite.setFrame(Math.floor(sprite.aframe))
+                            sprite.aframe = (sprite.aframe + 1) % sprite.numFrames()
+                        }
+                    }
+
                 } else {
                     if (this.dirección == RIGHT_ARROW) {
                         sprite = sprites.personaje.quieto.derecha
@@ -205,6 +242,29 @@
                     this.w,
                     this.h
                 )
+                if (this.roll) {
+                    push()
+                    blendMode(SCREEN)
+                    fill("white")
+                    var gradient = drawingContext.createLinearGradient(this.w / 2, this.h / 2, -this.w / 2, this.h / 2);
+                    gradient.addColorStop(0, 'white');
+                    gradient.addColorStop(.1, 'yellow');
+                    gradient.addColorStop(.2, 'orange');
+                    gradient.addColorStop(1, 'transparent');
+                    drawingContext.fillStyle = gradient;
+                    noStroke()
+                    if (this.roll == UP_ARROW) {
+                        rotate(-PI / 2)
+                    }
+                    if (this.roll == LEFT_ARROW) {
+                        rotate(PI)
+                    }
+                    if (this.roll == DOWN_ARROW) {
+                        rotate(PI / 2)
+                    }
+                    circle(0, 0, this.w)
+                    pop()
+                }
                 pop()
             }
         }
@@ -224,7 +284,13 @@
                         arriba: loadImage("imgs/caminando-arriba.gif"),
                         derecha: loadImage("imgs/caminando-derecha.gif"),
                         abajo: loadImage("imgs/caminando-abajo.gif"),
-                        izquierda: loadImage("imgs/caminando-izquierda.gif"),
+                        izquierda: loadImage("imgs/caminando-izquierda.gif")
+                    },
+                    roll: {
+                        arriba: loadImage("imgs/roll-arriba.gif"),
+                        derecha: loadImage("imgs/roll-derecha.gif"),
+                        abajo: loadImage("imgs/roll-abajo.gif"),
+                        izquierda: loadImage("imgs/roll-izquierda.gif")
                     }
                 }
             }
