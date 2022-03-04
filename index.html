@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Salocin</title>
+    <script src="tools_graphics.js"></script>
+</head>
+
+<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+
+        ESCALA_UNIDAD = 50
+
+
+        class Jugador {
+            constructor() {
+                this.x = 0
+                this.y = 0
+                this.w = ESCALA_UNIDAD
+                this.h = ESCALA_UNIDAD
+                this.movimiento = createVector(1, 0)
+                this.dirección = RIGHT_ARROW
+                this.mover = false
+            }
+
+            draw() {
+                push()
+                rectMode(CENTER)
+
+                stroke("white")
+                noFill()
+                rect(this.x, this.y, this.w, this.h)
+
+                if (keyIsDown(RIGHT_ARROW)) {
+                    this.movimiento.x = 1
+                    if (!this.mover) {
+                        this.dirección = RIGHT_ARROW
+                        this.mover = true
+                    }
+                } else {
+                    if (this.dirección == RIGHT_ARROW) {
+                        this.mover = false
+                    }
+                }
+                if (keyIsDown(LEFT_ARROW)) {
+                    this.movimiento.x = -1
+                    if (!this.mover) {
+                        this.dirección = LEFT_ARROW
+                        this.mover = true
+                    }
+                } else {
+                    if (this.dirección == LEFT_ARROW) {
+                        this.mover = false
+                    }
+                }
+                if (keyIsDown(UP_ARROW)) {
+                    this.movimiento.y = -1
+                    if (!this.mover) {
+                        this.dirección = UP_ARROW
+                        this.mover = true
+                    }
+                } else {
+                    if (this.dirección == UP_ARROW) {
+                        this.mover = false
+                    }
+                }
+                if (keyIsDown(DOWN_ARROW)) {
+                    this.movimiento.y = 1
+                    if (!this.mover) {
+                        this.dirección = DOWN_ARROW
+                        this.mover = true
+                    }
+                } else {
+                    if (this.dirección == DOWN_ARROW) {
+                        this.mover = false
+                    }
+                }
+
+                if (keyIsDown(RIGHT_ARROW) || keyIsDown(LEFT_ARROW)) {
+                    this.x += this.movimiento.x
+                }
+                if (keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW)) {
+                    this.y += this.movimiento.y
+                }
+
+                translate(this.x, this.y)
+
+                let sprite = sprites.personaje.quieto.derecha
+
+                if (this.mover) {
+                    if (this.dirección == RIGHT_ARROW) {
+                        sprite = sprites.personaje.caminando.derecha
+                    }
+                    if (this.dirección == LEFT_ARROW) {
+                        sprite = sprites.personaje.caminando.izquierda
+                    }
+                    if (this.dirección == DOWN_ARROW) {
+                        sprite = sprites.personaje.caminando.abajo
+                    }
+                    if (this.dirección == UP_ARROW) {
+                        sprite = sprites.personaje.caminando.arriba
+                    }
+                    if (sprite.numFrames()) {
+                        sprite.setFrame(Math.floor(sprite.aframe))
+                        sprite.aframe = (sprite.aframe + 0.2) % sprite.numFrames()
+                    }
+                } else {
+                    if (this.dirección == RIGHT_ARROW) {
+                        sprite = sprites.personaje.quieto.derecha
+                    }
+                    if (this.dirección == LEFT_ARROW) {
+                        sprite = sprites.personaje.quieto.izquierda
+                    }
+                    if (this.dirección == DOWN_ARROW) {
+                        sprite = sprites.personaje.quieto.abajo
+                    }
+                    if (this.dirección == UP_ARROW) {
+                        sprite = sprites.personaje.quieto.arriba
+                    }
+                    
+                    sprite.setFrame(Math.floor(sprite.aframe))
+                    
+                    if (millis() - sprites.personaje.quieto.parpadeo > 5000) {
+                        if (sprite.numFrames()) {
+                            if (sprite.aframe < sprite.numFrames()) {
+                                sprite.aframe = sprite.aframe + 0.2
+                            } else {
+                                sprites.personaje.quieto.parpadeo = millis()
+                                sprite.aframe = 0
+                            }
+                        }
+                    }
+                }
+
+                image(
+                    sprite,
+                    - this.w / 2,
+                    - this.h / 2,
+                    this.w,
+                    this.h
+                )
+                pop()
+            }
+        }
+
+        function preload() {
+            sprites = {
+                mapa: loadImage("imgs/Mapa.jfif"),
+                personaje: {
+                    quieto: {
+                        parpadeo: millis(),
+                        arriba: loadImage("imgs/parpadeando-arriba.png"),
+                        derecha: loadImage("imgs/parpadeando-derecha.gif"),
+                        abajo: loadImage("imgs/parpadeando-abajo.gif"),
+                        izquierda: loadImage("imgs/parpadeando-izquierda.gif"),
+                    },
+                    caminando: {
+                        arriba: loadImage("imgs/caminando-arriba.gif"),
+                        derecha: loadImage("imgs/caminando-derecha.gif"),
+                        abajo: loadImage("imgs/caminando-abajo.gif"),
+                        izquierda: loadImage("imgs/caminando-izquierda.gif"),
+                    }
+                }
+            }
+        }
+
+        function windowResizing() {
+            css_canvas()
+        }
+
+        function css_canvas() {
+            let horizontal = windowWidth > windowHeight
+            let w, h
+
+            if (horizontal) {
+                h = 384
+                w = h * 16 / 9
+            } else {
+                w = 384
+                h = w * 16 / 9
+            }
+
+            resizeCanvas(
+                w,
+                h
+            );
+            let x = (windowWidth - width) / 2
+            let y = (windowHeight - height) / 2
+            canvas.position(x, y)
+
+            let sx = windowWidth / width
+            let sy = windowHeight / height
+            s = min(sx, sy)
+            canvas.style(
+                "transform",
+                "scale(" + s + ")"
+            )
+        }
+
+        function setup() {
+            canvas = createCanvas(1280, 720)
+            sprites.personaje.quieto.derecha.aframe = 0
+            sprites.personaje.quieto.izquierda.aframe = 0
+            sprites.personaje.quieto.abajo.aframe = 0
+            sprites.personaje.quieto.arriba.aframe = 0
+            sprites.personaje.caminando.derecha.aframe = 0
+            sprites.personaje.caminando.izquierda.aframe = 0
+            sprites.personaje.caminando.abajo.aframe = 0
+            sprites.personaje.caminando.arriba.aframe = 0
+            jugador = new Jugador()
+            css_canvas()
+            noSmooth()
+        }
+
+        function draw() {
+            background("lightgray")
+            push()
+            translate(width / 2, height / 2)
+            image(sprites.mapa, -sprites.mapa.width / 2 - jugador.x, -sprites.mapa.height / 2 - jugador.y)
+            translate(-jugador.x, -jugador.y)
+            jugador.draw()
+            pop()
+        }
+    </script>
+</body>
+
+</html>
