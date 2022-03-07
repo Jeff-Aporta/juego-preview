@@ -4,7 +4,8 @@ mapa1 = {
     "https://i.ibb.co/hLyzHXc/grass-tile-2.png",
     "https://i.ibb.co/Z8DzY5N/grass-tile-3.png",
     "https://i.ibb.co/PxJdYHd/sand-tile.png",
-    "https://i.ibb.co/ZL8LR0Q/parpadeando-abajo.gif",
+    "https://i.ibb.co/m99NYxM/Sin-t-tulo-1.png",
+    "https://i.ibb.co/pfsT7z5/tierra.png",
   ],
   matriz: [
     [
