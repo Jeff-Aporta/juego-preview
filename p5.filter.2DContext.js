@@ -16,21 +16,12 @@ function TL(
   for (let c = 0; c < width; c++) {
     for (let f = 0; f < height; f++) {
       let i = (c + f * IMG.width) * 4;
-      IMG.data[i] = constrain(
-        IMG.data[i] * rx + IMG.data[i + 1] * ry + IMG.data[i + 2] * rz,
-        0,
-        255
-      );
-      IMG.data[i + 1] = constrain(
-        IMG.data[i] * gx + IMG.data[i + 1] * gy + IMG.data[i + 2] * gz,
-        0,
-        255
-      );
-      IMG.data[i + 2] = constrain(
-        IMG.data[i] * bx + IMG.data[i + 1] * by + IMG.data[i + 2] * bz,
-        0,
-        255
-      );
+      IMG.data[i] =
+        IMG.data[i] * rx + IMG.data[i + 1] * ry + IMG.data[i + 2] * rz;
+      IMG.data[i + 1] =
+        IMG.data[i] * gx + IMG.data[i + 1] * gy + IMG.data[i + 2] * gz;
+      IMG.data[i + 2] =
+        IMG.data[i] * bx + IMG.data[i + 1] * by + IMG.data[i + 2] * bz;
     }
   }
   ctx.putImageData(IMG, 0, 0);

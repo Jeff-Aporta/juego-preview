@@ -54,7 +54,7 @@
     </div>
     <script>
 
-        const ESCALA_UNIDAD = 30
+        const ESCALA_UNIDAD = 28
 
 
         function preload() {
@@ -188,11 +188,11 @@
             textSize(10)
             fill("white")
             stroke("black")
-            let t = map(sin(frameCount / 200 - PI / 2), -1, 1, 0, 1)
+            let t = map(sin(frameCount / 6000 - PI / 2), -1, 1, 0, 1)
             text(`${FPS} FPS\nx: ${floor(jugador.x / ESCALA_UNIDAD)}\ny: ${floor(jugador.y / ESCALA_UNIDAD)}\nt:${t.toFixed(2)}`, 5, 5)
             apagarCanales(
                 drawingContext,
-                lerp(0.3, 1, t), lerp(0.5, 1, t), lerp(0.9, 1, t)
+                lerp(0.1, 1, t), lerp(0.1, 1, t), lerp(0.4, 1, t)
             )
         }
 
