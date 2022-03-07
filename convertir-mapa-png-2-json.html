@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Convertir mapa a png</title>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+
+<body>
+     <script>
+          function preload() {
+               mapa_img = loadImage("imgs/mapa.png")
+          }
+
+          function setup() {
+               mapa_img.loadPixels();
+               pixeles = [...mapa_img.pixels]
+               print(pixeles[0])
+               print(pixeles[1])
+               print(pixeles[2])
+               mapa_img.updatePixels();
+          }
+     </script>
+</body>
+
+</html>

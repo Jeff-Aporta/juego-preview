@@ -234,7 +234,7 @@ class Jugador {
     rectMode(CENTER);
     stroke("white");
     noFill();
-    rect(0, 0, this.w, this.h);
+    //rect(0, 0, this.w, this.h);
 
     image(this.sprite, -this.w / 2, -this.h / 2, this.w, this.h);
     if (this.roll) {
