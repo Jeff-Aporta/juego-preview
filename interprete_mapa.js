@@ -46,24 +46,28 @@ function indexPerlinNoise(columna, fila) {
   let ajustador = floor(map(n, 0, 1, 0, mapa1.rutas.length - 1));
   switch (ajustador) {
     case 0:
-      return {//pasto oscuro
+      return {
+        //arena
+        index: 3,
+        color: [255, 200, 50],
+      };
+    case 1:
+      return {
+        //pasto oscuro
         index: 0,
         color: [0, 200, 0],
       };
-    case 1:
-      return {//Pasto medio
+    case 2:
+      return {
+        //Pasto medio
         index: 1,
         color: [0, 220, 0],
       };
-    case 2:
-      return {//Pasto claro
+    case 3:
+      return {
+        //Pasto claro
         index: 2,
         color: [0, 255, 0],
-      };
-    case 3:
-      return {//arena
-        index: 3,
-        color: [255, 200, 50],
       };
     case 4:
       return {
