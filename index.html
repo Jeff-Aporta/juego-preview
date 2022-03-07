@@ -54,7 +54,7 @@
     </div>
     <script>
 
-        const ESCALA_UNIDAD = 50
+        const ESCALA_UNIDAD = 30
 
 
         function preload() {
@@ -97,10 +97,10 @@
             let w, h
 
             if (horizontal) {
-                h = 384
+                h = 200
                 w = h * 16 / 9
             } else {
-                w = 384
+                w = 200
                 h = w * 16 / 9
             }
 
@@ -185,14 +185,14 @@
             jugador.draw()
             pop()
             textAlign(LEFT, TOP)
+            textSize(10)
             fill("white")
             stroke("black")
-            let t = map(sin(frameCount / 200), -1, 1, 0, 1)
-            t = 0
-            text(`${FPS} FPS\nx: ${floor(jugador.x / ESCALA_UNIDAD)}\ny: ${floor(jugador.y / ESCALA_UNIDAD)}\nt:${t}`, 10, 10)
+            let t = map(sin(frameCount / 200 - PI / 2), -1, 1, 0, 1)
+            text(`${FPS} FPS\nx: ${floor(jugador.x / ESCALA_UNIDAD)}\ny: ${floor(jugador.y / ESCALA_UNIDAD)}\nt:${t.toFixed(2)}`, 5, 5)
             apagarCanales(
                 drawingContext,
-                lerp(0.2, 1, t), lerp(0.4, 1, t), lerp(1, 1, t)
+                lerp(0.3, 1, t), lerp(0.5, 1, t), lerp(0.9, 1, t)
             )
         }
 

@@ -104,8 +104,8 @@ function apagarCanales(ctx, xR, xG, xB) {
   for (let c = 0; c < width; c++) {
     for (let f = 0; f < height; f++) {
       let i = (c + f * IMG.width) * 4;
-      IMG.data[i] *= (1 - sqrt((c - width / 2) ** 2 + (f - height / 2) ** 2)/300);
-      IMG.data[i + 1] *= (1 - sqrt((c - width / 2) ** 2 + (f - height / 2) ** 2)/300);
+      IMG.data[i] *= xR;
+      IMG.data[i + 1] *= xG;
       IMG.data[i + 2] *= xB;
     }
   }
@@ -137,13 +137,12 @@ function desfaceDeCanales(
       B.data[i + 1] = 0;
     }
   }
-
   let dR = createGraphics(width, height);
-  dR.ctx.putImageData(R, 0, 0);
+  dR.drawingContext.putImageData(R, 0, 0);
   let dG = createGraphics(width, height);
-  dG.ctx.putImageData(G, 0, 0);
+  dG.drawingContext.putImageData(G, 0, 0);
   let dB = createGraphics(width, height);
-  dB.ctx.putImageData(B, 0, 0);
+  dB.drawingContext.putImageData(B, 0, 0);
   push();
   fill("black");
   rect(0, 0, width, height);

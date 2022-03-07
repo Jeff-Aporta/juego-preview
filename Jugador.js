@@ -15,8 +15,8 @@ class Jugador {
     this.startRoll = 0;
     this.rollWait = 0;
     //limitadores velocidad
-    this.velocidadCaminar = 2;
-    this.velocidadRoll = 20;
+    this.velocidadCaminar = 1;
+    this.velocidadRoll = 10;
   }
 
   keysLogic() {
