@@ -23,7 +23,7 @@ function preload() {
     },
   };
   let tiles = {};
-  for (const img of mapa1.rutas) {
+  for (const img of rutas_tiles) {
     tiles[img] = loadImage(img);
   }
   sprites.tiles = tiles;

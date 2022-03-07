@@ -25,7 +25,7 @@ function contadorFPS() {
 
 function setup() {
   //noiseSeed(2);
-  noiseDetail(8, 0.8);
+  noiseDetail(7, 0.8);
 
   canvas = createCanvas(1280, 720);
   pixelDensity(1);
@@ -37,9 +37,10 @@ function setup() {
   sprites.personaje.caminando.izquierda.aframe = 0;
   sprites.personaje.caminando.abajo.aframe = 0;
   sprites.personaje.caminando.arriba.aframe = 0;
+  sprites.tiles[rutas_tiles[INDEX_TILE_AGUA]].aframe = 0
   css_canvas();
   noSmooth();
-  imapa = new Mapa(mapa1);
+  mapa = new Mapa();
   jugador = new Jugador();
   jugador.x = 0;
   jugador.y = 0;
@@ -50,5 +51,5 @@ function setup() {
   contadorFPS();
 
   minimapa = createGraphics(100, 100);
-  actualizarMinimapa()
+  actualizarMinimapa();
 }
