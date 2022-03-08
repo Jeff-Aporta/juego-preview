@@ -103,6 +103,11 @@ function apagarCanales(ctx, xR, xG, xB) {
   ctx.putImageData(IMG, 0, 0);
 }
 
+
+let filter_dR
+let filter_dG
+let filter_dB
+
 function desfaceDeCanales(
   ctx,
   xR = 10,
@@ -128,18 +133,29 @@ function desfaceDeCanales(
       B.data[i + 1] = 0;
     }
   }
-  let dR = createGraphics(width, height);
-  dR.drawingContext.putImageData(R, 0, 0);
-  let dG = createGraphics(width, height);
-  dG.drawingContext.putImageData(G, 0, 0);
-  let dB = createGraphics(width, height);
-  dB.drawingContext.putImageData(B, 0, 0);
+  if (!filter_dR) {
+    filter_dR = createGraphics(width, height);
+  }
+  if (!filter_dG) {
+    filter_dG = createGraphics(width, height);
+  }
+  if (!filter_dB) {
+    filter_dB = createGraphics(width, height);
+  }
+  if (width != filter_dR.width || height != filter_dR.height) {
+    filter_dR.resizeCanvas(width, height);
+    filter_dG.resizeCanvas(width, height);
+    filter_dB.resizeCanvas(width, height);
+  }
+  filter_dR.drawingContext.putImageData(R, 0, 0);
+  filter_dG.drawingContext.putImageData(G, 0, 0);
+  filter_dB.drawingContext.putImageData(B, 0, 0);
   push();
   fill("black");
   rect(0, 0, width, height);
   ctx.globalCompositeOperation = "screen";
-  image(dR, xR, yR);
-  image(dG, xG, yG);
-  image(dB, xB, yB);
+  image(filter_dR, xR, yR);
+  image(filter_dG, xG, yG);
+  image(filter_dB, xB, yB);
   pop();
 }
