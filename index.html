@@ -105,12 +105,12 @@
                 jugador.pcy = jugador.cy
                 actualizarMinimapa()
             }
-            /* apagarCanales(
+            apagarCanales(
                 drawingContext,
                 lerp(0.1, 1, t), lerp(0.1, 1, t), lerp(0.4, 1, t)
-            ) */
+            )
 
-            desfaceDeCanales(
+            /* desfaceDeCanales(
                 drawingContext,
                 map(noise(frameCount / 100), n_mas_bajo, n_mas_alto, -5, 5),
                 map(noise(1000 + frameCount / 1000), n_mas_bajo, n_mas_alto, -5, 5),
@@ -118,7 +118,7 @@
                 map(noise(3000 + frameCount / 1000), n_mas_bajo, n_mas_alto, -5, 5),
                 map(noise(4000 + frameCount / 1000), n_mas_bajo, n_mas_alto, -5, 5),
                 map(noise(5000 + frameCount / 1000), n_mas_bajo, n_mas_alto, -5, 5)
-            )
+            ) */
 
             if (mostrar_interno) {
                 document.getElementById("interno").innerHTML = `
