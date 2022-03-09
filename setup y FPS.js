@@ -25,7 +25,6 @@ function contadorFPS() {
 
 function setup() {
   //noiseSeed(2);
-  noiseDetail(7, 0.8);
 
   canvas = createCanvas(1280, 720);
   pixelDensity(1);

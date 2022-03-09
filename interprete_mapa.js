@@ -1,28 +1,32 @@
 const INDEX_TILE_PASTO_1 = 0;
-const INDEX_TILE_PASTO_2 = 1;
-const INDEX_TILE_PASTO_3 = 2;
-const INDEX_TILE_ARENA = 3;
-const INDEX_TILE_NIEVE = 4;
-const INDEX_TILE_TIERRA = 5;
-const INDEX_TILE_AGUA = 6;
+const INDEX_TILE_PASTO_3 = 1;
+const INDEX_TILE_ARENA = 2;
+const INDEX_TILE_NIEVE = 3;
+const INDEX_TILE_TIERRA = 4;
+const INDEX_TILE_AGUA = 5;
+const INDEX_TILE_ROCA = 6;
+const INDEX_TILE_AGUA_PROFUNDA = 7;
 
 rutas_tiles = [
   "https://i.ibb.co/jR2NTnk/grass-tile-1.png",
-  "https://i.ibb.co/hLyzHXc/grass-tile-2.png",
   "https://i.ibb.co/Z8DzY5N/grass-tile-3.png",
   "https://i.ibb.co/PxJdYHd/sand-tile.png",
   "https://i.ibb.co/m99NYxM/Sin-t-tulo-1.png",
   "https://i.ibb.co/pfsT7z5/tierra.png",
   "https://i.ibb.co/NTvPHG4/CK2ea0R.gif",
+  "https://i.ibb.co/gDMxxQp/roca.jpg",
+  "https://i.ibb.co/NTvPHG4/CK2ea0R.gif",
 ];
 
-let paso_noise = 0.0025;
+let paso_noise = 0.0012;
 
 let n_mas_alto = 0;
-let n_mas_bajo = 10000;
+let n_mas_bajo = 10;
 
 class Mapa {
   constructor() {
+    noiseSeed(0)
+    noiseDetail(7, 0.9);
     for (let fila = 0; fila < 500; fila++) {
       for (let columna = 0; columna < 500; columna++) {
         let n = noise(columna * paso_noise, fila * paso_noise);
@@ -60,15 +64,16 @@ class Mapa {
         try {
           let img = sprites.tiles[rutas_tiles[index.index]];
           switch (index.index) {
-            case 6:
+            case INDEX_TILE_AGUA:
               image(
-                sprites.tiles[rutas_tiles[5]],
+                sprites.tiles[rutas_tiles[INDEX_TILE_ARENA]],
                 ESCALA_UNIDAD * columna,
                 ESCALA_UNIDAD * fila,
                 ESCALA_UNIDAD,
                 ESCALA_UNIDAD
               );
               drawingContext.globalAlpha = 0.3;
+            case INDEX_TILE_AGUA_PROFUNDA:
               image(
                 img,
                 ESCALA_UNIDAD * columna,
@@ -92,23 +97,6 @@ class Mapa {
               break;
           }
         } catch (error) {
-          let n = noise(columna * paso_noise + 1000, fila * paso_noise + 2000);
-          let ajustador = floor(
-            map(n, n_mas_bajo, n_mas_alto, 0, rutas_tiles.length)
-          );
-          print("columna: " + columna);
-          print("fila: " + fila);
-          print("noise: " + n);
-          print("noise menor: " + n_mas_bajo);
-          print("noise mayor: " + n_mas_alto);
-          print("tile: " + ajustador);
-          text(
-            "X",
-            ESCALA_UNIDAD * columna,
-            ESCALA_UNIDAD * fila,
-            ESCALA_UNIDAD,
-            ESCALA_UNIDAD
-          );
         }
         pop();
       }
@@ -127,7 +115,7 @@ function indexPerlinNoise(columna, fila) {
     print("Nuevo Perlin menor = " + n_mas_bajo);
   }
   let ajustador = floor(
-    map(n, n_mas_bajo - 0.001, n_mas_alto + 0.001, 0, rutas_tiles.length)
+    map(n, n_mas_bajo - 0.0001, n_mas_alto + 0.0001, 0, rutas_tiles.length)
   );
   switch (ajustador) {
     case 0:
@@ -137,18 +125,18 @@ function indexPerlinNoise(columna, fila) {
       };
     case 1:
       return {
-        index: INDEX_TILE_ARENA,
-        color: [255, 200, 50],
+        index: INDEX_TILE_ROCA,
+        color: [128, 128, 128],
       };
     case 2:
       return {
-        index: INDEX_TILE_PASTO_1,
-        color: [0, 200, 0],
+        index: INDEX_TILE_TIERRA,
+        color: [200, 100, 0],
       };
     case 3:
       return {
-        index: INDEX_TILE_PASTO_2,
-        color: [0, 220, 0],
+        index: INDEX_TILE_PASTO_1,
+        color: [0, 200, 0],
       };
     case 4:
       return {
@@ -157,13 +145,18 @@ function indexPerlinNoise(columna, fila) {
       };
     case 5:
       return {
-        index: INDEX_TILE_TIERRA,
-        color: [200, 100, 0],
+        index: INDEX_TILE_ARENA,
+        color: [255, 200, 50],
       };
     case 6:
       return {
         index: INDEX_TILE_AGUA,
-        color: [94, 143, 114],
+        color: [181, 194, 121],
+      };
+    case 7:
+      return {
+        index: INDEX_TILE_AGUA_PROFUNDA,
+        color: [0, 128, 255],
       };
   }
 }
