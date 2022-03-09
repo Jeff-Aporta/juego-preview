@@ -18,24 +18,18 @@ rutas_tiles = [
   "https://i.ibb.co/NTvPHG4/CK2ea0R.gif",
 ];
 
-let paso_noise = 0.0012;
+let paso_noise = 0.0006;
 
 let n_mas_alto = 0;
 let n_mas_bajo = 10;
 
 class Mapa {
   constructor() {
-    noiseSeed(0)
-    noiseDetail(7, 0.9);
-    for (let fila = 0; fila < 500; fila++) {
-      for (let columna = 0; columna < 500; columna++) {
-        let n = noise(columna * paso_noise, fila * paso_noise);
-        if (n > n_mas_alto) {
-          n_mas_alto = n;
-        }
-        if (n < n_mas_bajo) {
-          n_mas_bajo = n;
-        }
+    noiseSeed(5);
+    noiseDetail(9, 0.9);
+    for (let fila = -500; fila < 500; fila++) {
+      for (let columna = -500; columna < 500; columna++) {
+        indexPerlinNoise(columna, fila);
       }
     }
     print("Perlin mayor = " + n_mas_alto);
@@ -96,8 +90,7 @@ class Mapa {
               );
               break;
           }
-        } catch (error) {
-        }
+        } catch (error) {}
         pop();
       }
     }
